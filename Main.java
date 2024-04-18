@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.*;
 public class Main {
     static ArrayList<GraphNode> nodes = new ArrayList<>();
     public static void main(String[] args) {
@@ -115,7 +115,10 @@ public class Main {
     }
     public static void MSTKruskal(){
         ArrayList<GraphEdge> graph_edges = new ArrayList<>();
-
+        ArrayList<GraphNode> tree_nodes = new ArrayList<>();
+        ArrayList<GraphEdge> tree_edges = new ArrayList<>();
+        int num_of_edges = 0;
+        int v = nodes.size();
         for(GraphNode gn : nodes){
             for (GraphEdge ge: gn.edges){
                 graph_edges.add(ge);
@@ -123,8 +126,27 @@ public class Main {
             }
 
         }
+
         GraphEdge[] edges_arr = (GraphEdge[]) graph_edges.toArray();
         selection_sort(edges_arr);
-        
+        List<GraphEdge> ge_list_final = new ArrayList<>(Arrays.asList(edges_arr));
+        while (num_of_edges != v-1){
+            for(GraphEdge ge: ge_list_final){
+                    ge_list_final.remove(ge);
+                    if(tree_nodes.contains(ge.nodeToConnect) && tree_nodes.contains(/* wierzchołek, z którego wychodzi krawędź*/)){
+
+                    }
+                    else{ //nie występuje cykl
+                        tree_edges.add(ge);
+                    }
+
+            }
+
+        }
+
+    }
+    public static void MSTPrim(){
+        ArrayList<GraphNode> visited = new ArrayList<>();
+
     }
 }
