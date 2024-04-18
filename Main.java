@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.*;
@@ -130,16 +131,23 @@ public class Main {
         GraphEdge[] edges_arr = (GraphEdge[]) graph_edges.toArray();
         selection_sort(edges_arr);
         List<GraphEdge> ge_list_final = new ArrayList<>(Arrays.asList(edges_arr));
+        GraphNode startnode = new GraphNode(-99);
         while (num_of_edges != v-1){
             for(GraphEdge ge: ge_list_final){
-                    ge_list_final.remove(ge);
-                    if(tree_nodes.contains(ge.nodeToConnect) && tree_nodes.contains(/* wierzchołek, z którego wychodzi krawędź*/)){
-
+                for(GraphNode gn : nodes){
+                    if(gn.edges.contains(ge)){
+                        startnode = gn;
                     }
-                    else{ //nie występuje cykl
-                        tree_edges.add(ge);
-                    }
+                }
 
+                if(!tree_nodes.contains(ge.nodeToConnect) || !tree_nodes.contains(startnode)){ //nie występuje cykl
+                    tree_edges.add(ge);
+                    num_of_edges++;
+                    tree_nodes.add(ge.nodeToConnect);
+                    tree_nodes.add(startnode);
+                }
+
+                ge_list_final.remove(ge);
             }
 
         }
@@ -147,6 +155,35 @@ public class Main {
     }
     public static void MSTPrim(){
         ArrayList<GraphNode> visited = new ArrayList<>();
+        ArrayList<GraphEdge> tree_edges = new ArrayList<>();
+        Random rand = new Random();
+        int rand_index = rand.nextInt(nodes.size());
+        for(GraphNode gn : nodes){
+            if(nodes.indexOf(gn) == rand_index){
+                visited.add(gn);
+            }
+        }
+        GraphNode placeholder = new GraphNode(-99);
+        GraphEdge shortest_ge = new GraphEdge(-99, placeholder);
+        while (visited.size() != nodes.size()){
+
+            for (GraphNode vis_gn : visited){
+                int minweight = 999;
+
+                for (GraphEdge ge: vis_gn.edges){
+                    if(ge.weight < minweight && !visited.contains(ge.nodeToConnect)){
+                        minweight = ge.weight;
+                        shortest_ge = ge;
+
+                    }
+
+                } //znajdujemy najkrótszą krawędź
+            }
+            if (shortest_ge.weight != -99){
+                tree_edges.add(shortest_ge);
+                visited.add(shortest_ge.nodeToConnect);
+            }
+        }
 
     }
 }
