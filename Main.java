@@ -97,13 +97,34 @@ public class Main {
         }
         return (int) dest.dis;
     }
+    public static void selection_sort(GraphEdge ge_arr[]){
+        int n = ge_arr.length;
+        for (int i = 0; i < n-1; i++)
+        {
+
+            int min_idx = i;
+            for (int j = i+1; j < n; j++)
+                if (ge_arr[j].weight < ge_arr[min_idx].weight)
+                    min_idx = j;
+
+
+            GraphEdge temp = ge_arr[min_idx];
+            ge_arr[min_idx] = ge_arr[i];
+            ge_arr[i] = temp;
+        }
+    }
     public static void MSTKruskal(){
         ArrayList<GraphEdge> graph_edges = new ArrayList<>();
 
         for(GraphNode gn : nodes){
             for (GraphEdge ge: gn.edges){
-                graph_edges.add()
+                graph_edges.add(ge);
+
             }
+
         }
+        GraphEdge[] edges_arr = (GraphEdge[]) graph_edges.toArray();
+        selection_sort(edges_arr);
+        
     }
 }
